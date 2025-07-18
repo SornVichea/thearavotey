@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en,kh,ch">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thearavotey</title>
+    <!-- Favicon -->
+    <link rel="icon" href="img/favcon/1.fav.png" type="image/png">
+    <!-- Google Fonts - Romnea -->
+    <link href="https://fonts.googleapis.com/css2?family=Romnea&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN for easy styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom styles for the Romnea font and basic body styling */
+        body {
+            font-family: 'Romnea', sans-serif; /* Font changed to Romnea */
+            background-color: #f0f4f8; /* Light gray background */
+            color: #333; /* Dark text color */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure body takes full viewport height */
+        }
+        /* Ensure main content takes available space */
+        main {
+            flex-grow: 1;
+        }
+        /* Custom styling for menu items */
+        .nav-link {
+            padding: 0.5rem 1rem; /* Padding around links */
+            border-radius: 0.375rem; /* Rounded corners */
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+        }
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2); /* Slightly transparent white on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+        /* Define custom color for Tailwind */
+        .bg-custom-green {
+            background-color: #265c2d;
+        }
+        .hover\:bg-custom-green-dark:hover {
+            background-color: #1a4520; /* A darker shade for hover effect */
+        }
+        .text-custom-green-light {
+            color: #4a8050; /* A lighter shade for text hover */
+        }
+        /* Custom color for language switcher */
+        .bg-language-switcher {
+            background-color: #7caa41; /* New color for language switcher */
+        }
+
+        /* Slider specific styles */
+        .slider-container {
+            position: relative;
+            max-width: 100%;
+            overflow: hidden;
+            border-radius: 0.75rem; /* Rounded corners for the slider */
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            flex-shrink: 0;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 400px; /* Fixed height for consistency */
+            object-fit: cover; /* Cover the area, crop if necessary */
+            border-radius: 0.75rem; /* Match container border-radius */
+        }
+
+        .slider-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease;
+            z-index: 10;
+        }
+
+        .slider-nav-btn:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .prev-btn {
+            left: 1rem;
+        }
+
+        .next-btn {
+            right: 1rem;
+        }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: white;
+            transform: scale(1.2);
+        }
+        /* Smooth scrolling for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Header Section - Improved Menu -->
+    <header class="bg-custom-green text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center px-4 py-2">
+            <!-- Site Title/Logo -->
+            <a href="#" class="text-4xl font-extrabold mb-4 md:mb-0 hover:text-custom-green-light transition duration-300" data-key="siteTitle">
+                thearavotey
+            </a>
+
+            <!-- Navigation Menu -->
+            <nav class="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-6 text-lg items-center">
+                <ul class="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-6 text-lg">
+                    <li><a href="#home" class="nav-link" data-key="home">Home</a></li>
+                    <li><a href="#about-us" class="nav-link" data-key="aboutUs">About Us</a></li>
+                    <li><a href="#product" class="nav-link" data-key="product">Product</a></li>
+                    <li><a href="#contact" class="nav-link" data-key="contact">Contact</a></li>
+                </ul>
+                <!-- Language Switcher moved here -->
+                <div class="mb-4 md:mb-0 md:ml-6"> <!-- Added margin-left for spacing -->
+                    <select id="language-switcher" class="bg-language-switcher text-white p-2 rounded-md cursor-pointer">
+                        <option value="en">English</option>
+                        <option value="km">ខ្មែរ</option>
+                        <option value="zh">中文</option>
+                    </select>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <main class="container mx-auto p-8 my-8 bg-white rounded-lg shadow-lg">
+        <!-- Image Slider Section -->
+        <section class="mb-12" id="home"> <!-- Added ID for Home section -->
+            <div class="slider-container">
+                <div class="slides" id="imageSlider">
+                    <!-- Placeholder images for the slider -->
+                    <!-- Recommended size: 1200px x 400px -->
+                    <div class="slide">
+                        <img src="img/slide/1.Comestic.png" alt="Slider Image 1">
+                    </div>
+                    <div class="slide">
+                        <img src="img/slide/2.Home Supplies.png" alt="Slider Image 2">
+                    </div>
+                    <div class="slide">
+                        <img src="img/slide/3.Cleaning.png" alt="Slider Image 3">
+                    </div>
+                </div>
+
+                <!-- Slider Navigation Buttons -->
+                <button class="slider-nav-btn prev-btn" onclick="moveSlide(-1)">&#10094;</button>
+                <button class="slider-nav-btn next-btn" onclick="moveSlide(1)">&#10095;</button>
+
+                <!-- Slider Dots -->
+                <div class="slider-dots" id="sliderDots">
+                    <!-- Dots will be dynamically added here by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <section class="text-center mb-12">
+            <h2 class="text-4xl font-extrabold text-gray-800 mb-4" data-key="welcomeTitle">Welcome to Thearavotey!</h2>
+            <p class="text-lg text-gray-600 leading-relaxed" data-key="welcomeText">
+                Explore our services and learn more about what we offer.
+            </p>
+            <button class="mt-6 bg-custom-green hover:bg-custom-green-dark text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 transform hover:scale-105" data-key="learnMoreBtn">
+                Learn More
+            </button>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="about-us" class="mb-12 p-6 bg-gray-50 rounded-lg shadow-md">
+            <h2 class="text-4xl font-extrabold text-gray-800 text-center mb-8" data-key="aboutUsTitle">About Thearavotey</h2>
+
+            <div class="flex flex-col md:flex-row items-center md:space-x-8">
+                <!-- About Us Image -->
+                <div class="md:w-1/2 mb-6 md:mb-0">
+                    <!-- Recommended size: 600px x 400px -->
+                    <img src="img/1.aboutus.png" alt="About Thearavotey" class="rounded-lg shadow-lg w-full h-auto object-cover">
+                </div>
+
+                <!-- About Us Text Content (Blog-like) -->
+                <div class="md:w-1/2">
+                    <h3 class="text-3xl font-semibold text-gray-700 mb-4" data-key="ourJourneyTitle">Our Journey and Vision</h3>
+                    <p class="text-gray-600 leading-relaxed mb-4" data-key="aboutUsPara1">
+                        Welcome to Thearavotey, where we are committed to innovative **business** practices and strong **partnerships**. We embarked on this journey with a clear vision: to deliver exceptional solutions that empower our clients and drive meaningful impact. Our team is composed of passionate individuals committed to excellence in every project we undertake.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed mb-4" data-key="aboutUsPara2">
+                        Since our inception, we have strived to build lasting relationships based on trust, transparency, and mutual success. We believe in **honesty** in business and continuously learning and adapting to the ever-evolving landscape, ensuring that our services remain at the forefront of industry standards.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed" data-key="aboutUsPara3">
+                        At Thearavotey, your goals are our priority. We are dedicated to understanding your unique needs and providing **excellent service** that not only meets but exceeds your expectations. Join us as we continue to innovate and create a brighter future together.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Section -->
+        <section id="product" class="mb-12 p-6 bg-gray-50 rounded-lg shadow-md">
+            <h2 class="text-4xl font-extrabold text-gray-800 text-center mb-8" data-key="productCategoriesTitle">Our Product Categories</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Product Category Card: Medical equipment -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 cursor-pointer" onclick="window.location.assign('product-list.html?category=medicalEquipment')">
+                    <!-- Recommended size: 400px x 250px -->
+                    <img src="img/Products/1.Medical Equitment.png" alt="Image of Medical Equipment" class="w-full h-48 object-cover">
+                    <div class="p-6 text-center">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-2" data-key="medicalEquipmentTitle">Medical Equipment</h3>
+                        <p class="text-gray-600" data-key="medicalEquipmentDesc">Explore modern medical equipment and its uses.</p>
+                    </div>
+                </div>
+
+                <!-- Product Category Card: Kitchenware -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 cursor-pointer" onclick="window.location.assign('product-list.html?category=kitchenware')">
+                    <!-- Recommended size: 400px x 250px -->
+                    <img src="img/Products/2.Kitchen Ware.png" alt="Image of Kitchenware" class="w-full h-48 object-cover">
+                    <div class="p-6 text-center">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-2" data-key="kitchenwareTitle">Kitchenware</h3>
+                        <p class="text-gray-600" data-key="kitchenwareDesc">Discover high-quality kitchen supplies for all your needs.</p>
+                    </div>
+                </div>
+
+                <!-- Product Category Card: Hotel Supplies -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 cursor-pointer" onclick="window.location.assign('product-list.html?category=hotelSupplies')">
+                    <!-- Recommended size: 400px x 250px -->
+                    <img src="img/Products/3.Hotel Supplies.png" alt="Image of Hotel Supplies" class="w-full h-48 object-cover">
+                    <div class="p-6 text-center">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-2" data-key="hotelSuppliesTitle">Hotel Supplies</h3>
+                        <p class="text-gray-600" data-key="hotelSuppliesDesc">Information and guides on hotel amenities and supplies.</p>
+                    </div>
+                </div>
+
+                <!-- Product Category Card: Cosmetics/Fragrances -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 cursor-pointer" onclick="window.location.assign('product-list.html?category=cosmeticsFragrances')">
+                    <!-- Recommended size: 400px x 250px -->
+                    <img src="img/Products/4.Cosmetic and Fragraces.png" alt="Image of Cosmetics" class="w-full h-48 object-cover">
+                    <div class="p-6 text-center">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-2" data-key="cosmeticsFragrancesTitle">Cosmetics & Fragrances</h3>
+                        <p class="text-gray-600" data-key="cosmeticsFragrancesDesc">Explore the world of cosmetics and beauty products.</p>
+                    </div>
+                </div>
+
+                <!-- Product Category Card: Offerings/Religious items -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 cursor-pointer" onclick="window.location.assign('product-list.html?category=religiousOfferings')">
+                    <!-- Recommended size: 400px x 250px -->
+                    <img src="img/Products/5.Religion Offering.png" alt="Image of Offerings" class="w-full h-48 object-cover">
+                    <div class="p-6 text-center">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-2" data-key="religiousOfferingsTitle">Religious Offerings</h3>
+                        <p class="text-gray-600" data-key="religiousOfferingsDesc">Information on religious offerings and various traditions.</p>
+                    </div>
+                </div>
+
+                <!-- Product Category Card: Betel nut and leaves -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 cursor-pointer" onclick="window.location.assign('product-list.html?category=betelNutLeaves')">
+                    <!-- Recommended size: 400px x 250px -->
+                    <img src="img/Products/6.Betel Nut and Leaves.png" alt="Image of Betel Nut and Leaves" class="w-full h-48 object-cover">
+                    <div class="p-6 text-center">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-2" data-key="betelNutLeavesTitle">Betel Nut & Leaves</h3>
+                        <p class="text-gray-600" data-key="betelNutLeavesDesc">Learn about betel nut and its cultural significance.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="mb-12 p-6 bg-gray-50 rounded-lg shadow-md">
+            <h2 class="text-4xl font-extrabold text-gray-800 text-center mb-8" data-key="contactTitle">Get in Touch with Thearavotey</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Contact Details Column -->
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-2xl font-semibold text-gray-700 mb-2" data-key="contactNumberTitle">
+                            <i class="fas fa-phone text-xl mr-2"></i>Contact Number
+                        </h3>
+                        <p class="text-lg text-gray-600"><a href="tel:+855979888885" class="text-blue-600 hover:underline">+855 97 988 8885</a></p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold text-gray-700 mb-2" data-key="facebookPageTitle">
+                            <i class="fab fa-facebook-f text-xl mr-2"></i>Facebook Page
+                        </h3>
+                        <p class="text-lg text-gray-600"><a href="https://web.facebook.com/Thearavotey50b" target="_blank" class="text-blue-600 hover:underline">facebook.com/thearavotey</a></p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold text-gray-700 mb-2" data-key="telegramChannelTitle">
+                            <i class="fab fa-telegram-plane text-xl mr-2"></i>Telegram Channel
+                        </h3>
+                        <p class="text-lg text-gray-600"><a href="https://t.me/thearavotey" target="_blank" class="text-blue-600 hover:underline">t.me/thearavoteychannel</a></p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold text-gray-700 mb-2" data-key="telegramContactTitle">
+                            <i class="fab fa-telegram-plane text-xl mr-2"></i>Telegram Contact
+                        </h3>
+                        <p class="text-lg text-gray-600"><a href="https://t.me/thearavotey1" target="_blank" class="text-blue-600 hover:underline">@thearavoteycontact</a></p>
+                    </div>
+                    <!-- Operating Hours -->
+                    <div>
+                        <h3 class="text-2xl font-semibold text-gray-700 mb-2" data-key="operatingHoursTitle">
+                            <i class="fas fa-clock text-xl mr-2"></i>Operating Hours
+                        </h3>
+                        <p class="text-lg text-gray-600" data-key="operatingHoursDays">Mon - Sun</p>
+                        <p class="text-lg text-gray-600" data-key="operatingHoursTime">6:00 AM - 5:00 PM</p>
+                    </div>
+                </div>
+
+                <!-- Location Column -->
+                <div>
+                    <h3 class="text-2xl font-semibold text-gray-700 mb-2" data-key="ourLocationTitle">
+                        <i class="fas fa-map-marker-alt text-xl mr-2"></i>Our Location
+                    </h3>
+                    <p class="text-lg text-gray-600 mb-4" data-key="locationAddress">
+                        #50B, Street 115 Corner Street 232, Sangkat Boeng Prolit, Khan Prampi Makara, Phnom Penh, Cambodia
+                    </p>
+                    <!-- Placeholder for a map or map link -->
+                    <div class="bg-gray-200 rounded-lg h-48 flex items-center justify-center text-gray-500">
+                        <a href="https://www.google.com/maps/place/ThearaVotey+%E1%9E%92%E1%9E%B6%E1%9E%9A%E1%9F%89%E1%9E%B6%E1%9E%9C%E1%9E%8F%E1%9F%92%E1%9E%8F%E1%9E%B8/@11.5584376,104.9146909,17z/data=!3m1!4b1!4m6!3m5!1s0x310951f9d421870f:0xf278df03342193e5!8m2!3d11.5584324!4d104.9172658!16s%2Fg%2F11jgc0j_2f?entry=ttu&g_ep=EgoyMDI1MDcxNS4xIKXMDSoASAFQAw%3D%3D" target="_blank" class="text-blue-600 hover:underline" data-key="viewOnMap">
+                            View on Google Maps (Placeholder)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 text-white p-6 mt-auto rounded-t-lg">
+        <div class="container mx-auto text-center px-4">
+            <p data-key="footerCopyright">&copy; 2025 Thearavotey. All rights reserved.</p>
+            <p class="text-sm text-gray-400 mt-1" data-key="developedBy">Developed by Sorn Vichea</p>
+            <div class="flex justify-center space-x-4 mt-2">
+                <a href="#" class="hover:text-gray-400 transition duration-300" data-key="privacyPolicy">Privacy Policy</a>
+                <a href="#" class="hover:text-gray-400 transition duration-300" data-key="termsOfService">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Image Slider JavaScript ---
+        let slideIndex = 0;
+        let slides = [];
+        let dotsContainer = null;
+        let slideInterval;
+
+        // Function to show a specific slide
+        function showSlides(n) {
+            if (slides.length === 0) return; // Ensure slides are loaded
+
+            if (n >= slides.length) {
+                slideIndex = 0; // Loop back to the first slide
+            } else if (n < 0) {
+                slideIndex = slides.length - 1; // Loop to the last slide
+            } else {
+                slideIndex = n;
+            }
+
+            // Move the slides container to show the current slide
+            document.getElementById('imageSlider').style.transform = `translateX(${-slideIndex * 100}%)`;
+
+            // Update active dot
+            if (dotsContainer) {
+                Array.from(dotsContainer.children).forEach((dot, index) => {
+                    if (index === slideIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+        }
+
+        // Function to move to the next or previous slide
+        function moveSlide(n) {
+            showSlides(slideIndex + n);
+            resetAutoSlide(); // Reset auto-slide timer on manual navigation
+        }
+
+        // Function to create navigation dots
+        function createDots() {
+            dotsContainer = document.getElementById('sliderDots');
+            if (!dotsContainer) return;
+
+            dotsContainer.innerHTML = ''; // Clear existing dots
+            for (let i = 0; i < slides.length; i++) {
+                const dot = document.createElement('span');
+                dot.classList.add('dot');
+                dot.onclick = () => showSlides(i);
+                dotsContainer.appendChild(dot);
+            }
+            showSlides(slideIndex); // Initialize active dot
+        }
+
+        // Function to start auto-sliding
+        function startAutoSlide() {
+            slideInterval = setInterval(() => {
+                showSlides(slideIndex + 1);
+            }, 5000); // Change slide every 5 seconds
+        }
+
+        // Function to reset auto-slide timer
+        function resetAutoSlide() {
+            clearInterval(slideInterval);
+            startAutoSlide();
+        }
+
+        // --- Language Switcher JavaScript ---
+        const translations = {
+            'en': {
+                'home': 'Home',
+                'aboutUs': 'About Us',
+                'product': 'Product',
+                'contact': 'Contact',
+                'siteTitle': 'thearavotey',
+                'welcomeTitle': 'Welcome to Thearavotey!',
+                'welcomeText': 'Explore our services and learn more about what we offer.',
+                'learnMoreBtn': 'Learn More',
+                'aboutUsTitle': 'About Thearavotey',
+                'ourJourneyTitle': 'Our Journey and Vision',
+                'aboutUsPara1': 'Welcome to Thearavotey, where we are committed to innovative **business** practices and strong **partnerships**. We embarked on this journey with a clear vision: to deliver exceptional solutions that empower our clients and drive meaningful impact. Our team is composed of passionate individuals committed to excellence in every project we undertake.',
+                'aboutUsPara2': 'Since our inception, we have strived to build lasting relationships based on trust, transparency, and mutual success. We believe in **honesty** in business and continuously learning and adapting to the ever-evolving landscape, ensuring that our services remain at the forefront of industry standards.',
+                'aboutUsPara3': 'At Thearavotey, your goals are our priority. We are dedicated to understanding your unique needs and providing **excellent service** that not only meets but exceeds your expectations. Join us as we continue to innovate and create a brighter future together.',
+                'productCategoriesTitle': 'Our Product Categories',
+                'medicalEquipmentTitle': 'Medical Equipment',
+                'medicalEquipmentDesc': 'Explore modern medical equipment and its uses.',
+                'kitchenwareTitle': 'Kitchenware',
+                'kitchenwareDesc': 'Discover high-quality kitchen supplies for all your needs.',
+                'hotelSuppliesTitle': 'Hotel Supplies',
+                'hotelSuppliesDesc': 'Information and guides on hotel amenities and supplies.',
+                'cosmeticsFragrancesTitle': 'Cosmetics & Fragrances',
+                'cosmeticsFragrancesDesc': 'Explore the world of cosmetics and beauty products.',
+                'religiousOfferingsTitle': 'Religious Offerings',
+                'religiousOfferingsDesc': 'Information on religious offerings and various traditions.',
+                'betelNutLeavesTitle': 'Betel Nut & Leaves',
+                'betelNutLeavesDesc': 'Learn about betel nut and its cultural significance.',
+                'contactTitle': 'Get in Touch with Thearavotey',
+                'contactNumberTitle': 'Contact Number',
+                'facebookPageTitle': 'Facebook Page',
+                'telegramChannelTitle': 'Telegram Channel',
+                'telegramContactTitle': 'Telegram Contact',
+                'operatingHoursTitle': 'Operating Hours',
+                'operatingHoursDays': 'Mon - Sun',
+                'operatingHoursTime': '6:00 AM - 5:00 PM',
+                'ourLocationTitle': 'Our Location',
+                'locationAddress': '#50B, Street 115 Corner Street 232, Sangkat Boeng Prolit, Khan Prampi Makara, Phnom Penh, Cambodia',
+                'viewOnMap': 'View on Google Maps (Placeholder)',
+                'footerCopyright': '&copy; 2025 Thearavotey. All rights reserved.',
+                'developedBy': 'Developed by Sorn Vichea',
+                'privacyPolicy': 'Privacy Policy',
+                'termsOfService': 'Terms of Service'
+            },
+            'km': {
+                'home': 'ទំព័រដើម',
+                'aboutUs': 'អំពីពួកយើង',
+                'product': 'ផលិតផល',
+                'contact': 'ទំនាក់ទំនង',
+                'siteTitle': 'ធារ៉ាវតី',
+                'welcomeTitle': 'សូមស្វាគមន៍មកកាន់ធារ៉ាវតី!',
+                'welcomeText': 'ស្វែងយល់ពីសេវាកម្មរបស់យើង និងស្វែងយល់បន្ថែមអំពីអ្វីដែលយើងផ្តល់ជូន។',
+                'learnMoreBtn': 'ស្វែងយល់បន្ថែម',
+                'aboutUsTitle': 'អំពីធារ៉ាវតី',
+                'ourJourneyTitle': 'ដំណើរ និងចក្ខុវិស័យរបស់យើង',
+                'aboutUsPara1': 'សូមស្វាគមន៍មកកាន់ធារ៉ាវតី ដែលយើងប្តេជ្ញាចំពោះ **ការរកស៊ី** ប្រកបដោយភាពច្នៃប្រឌិត និងភាពជាដៃគូរឹងមាំ។ យើងបានចាប់ផ្តើមដំណើរនេះជាមួយនឹងចក្ខុវិស័យច្បាស់លាស់មួយ៖ ដើម្បីផ្តល់នូវដំណោះស្រាយពិសេសៗដែលផ្តល់អំណាចដល់អតិថិជនរបស់យើង និងជំរុញផលប៉ះពាល់ប្រកបដោយអត្ថន័យ។ ក្រុមរបស់យើងមានបុគ្គលដែលងប់ងល់នឹងឧត្តមភាពនៅក្នុងគ្រប់គម្រោងដែលយើងអនុវត្ត។',
+                'aboutUsPara2': 'ចាប់តាំងពីការបង្កើតឡើងរបស់យើងមក យើងបានខិតខំកសាងទំនាក់ទំនងយូរអង្វែងដោយផ្អែកលើទំនុកចិត្ត តម្លាភាព និងភាពជោគជ័យទៅវិញទៅមក។ យើងជឿជាក់លើ **ភាពស្មោះត្រង់** ក្នុងការប្រកបអាជីវកម្ម និងការសម្របខ្លួនទៅនឹងទេសភាពដែលកំពុងវិវឌ្ឍន៍ជានិច្ច ធានាថាសេវាកម្មរបស់យើងនៅតែស្ថិតនៅជួរមុខនៃស្តង់ដារឧស្សាហកម្ម។',
+                'aboutUsPara3': 'នៅធារ៉ាវតី គោលដៅរបស់អ្នកគឺជាអាទិភាពរបស់យើង។ យើងប្តេជ្ញាស្វែងយល់ពីតម្រូវការពិសេសរបស់អ្នក និងផ្តល់នូវ **ការបម្រើសេវាកម្មល្អឥតខ្ចោះ** ដែលមិនត្រឹមតែបំពេញប៉ុណ្ណោះទេ ប៉ុន្តែថែមទាំងលើសពីការរំពឹងទុករបស់អ្នកទៀតផង។ សូមចូលរួមជាមួយយើង ខណៈដែលយើងបន្តច្នៃប្រឌិត និងបង្កើតអនាគតដ៏ភ្លឺស្វាងជាមួយគ្នា។',
+                'productCategoriesTitle': 'ប្រភេទផលិតផលរបស់យើង',
+                'medicalEquipmentTitle': 'បរិក្ខាពេទ្យ',
+                'medicalEquipmentDesc': 'ស្វែងយល់ពីបរិក្ខាពេទ្យទំនើបៗ និងការប្រើប្រាស់របស់វា។',
+                'kitchenwareTitle': 'សម្ភារផ្ទះបាយ',
+                'kitchenwareDesc': 'រុករកសម្ភារផ្ទះបាយដែលមានគុណភាពខ្ពស់សម្រាប់គ្រប់តម្រូវការ។',
+                'hotelSuppliesTitle': 'សម្ភារសណ្ឋាគារ',
+                'hotelSuppliesDesc': 'ព័ត៌មាន និងការណែនាំអំពីសម្ភារៈប្រើប្រាស់ក្នុងសណ្ឋាគារ។',
+                'cosmeticsFragrancesTitle': 'គ្រឿងក្រអូប',
+                'cosmeticsFragrancesDesc': 'ស្វែងយល់ពីពិភពគ្រឿងក្រអូប និងផលិតផលថែរក្សាសម្រស់។',
+                'religiousOfferingsTitle': 'គ្រឿងសក្ការបូជា',
+                'religiousOfferingsDesc': 'ព័ត៌មានអំពីគ្រឿងសក្ការបូជា និងប្រពៃណីផ្សេងៗ។',
+                'betelNutLeavesTitle': 'ស្លាម្លូ',
+                'betelNutLeavesDesc': 'រៀនអំពីស្លាម្លូ និងសារៈសំខាន់របស់វា។',
+                'contactTitle': 'ទាក់ទងធារ៉ាវតី',
+                'contactNumberTitle': 'លេខទូរស័ព្ទទំនាក់ទំនង',
+                'facebookPageTitle': 'ទំព័រហ្វេសប៊ុក',
+                'telegramChannelTitle': 'បណ្តាញ Telegram',
+                'telegramContactTitle': 'ទំនាក់ទំនង Telegram',
+                'operatingHoursTitle': 'ម៉ោងធ្វើការ',
+                'operatingHoursDays': 'ច័ន្ទ - អាទិត្យ',
+                'operatingHoursTime': '6:00 ព្រឹក - 5:00 ល្ងាច',
+                'ourLocationTitle': 'ទីតាំងរបស់យើង',
+                'locationAddress': '#50B, ផ្លូវ 115 ជ្រុងផ្លូវ 232, សង្កាត់បឹងព្រលិត, ខណ្ឌ ៧ មករា, ភ្នំពេញ, កម្ពុជា',
+                'viewOnMap': 'មើលនៅលើ Google Maps (Placeholder)',
+                'footerCopyright': '&copy; 2025 ធារ៉ាវតី។ រក្សាសិទ្ធិគ្រប់យ៉ាង។',
+                'developedBy': 'បង្កើតដោយ ស៊ន វិជ្ជា',
+                'privacyPolicy': 'គោលការណ៍ឯកជនភាព',
+                'termsOfService': 'លក្ខខណ្ឌប្រើប្រាស់'
+            },
+            'zh': {
+                'home': '首页',
+                'aboutUs': '关于我们',
+                'product': '产品',
+                'contact': '联系我们',
+                'siteTitle': 'Thearavotey',
+                'welcomeTitle': '欢迎来到 Thearavotey！',
+                'welcomeText': '探索我们的服务，了解更多我们提供的内容。',
+                'learnMoreBtn': '了解更多',
+                'aboutUsTitle': '关于 Thearavotey',
+                'ourJourneyTitle': '我们的旅程与愿景',
+                'aboutUsPara1': '欢迎来到 Thearavotey，我们致力于创新的**商业实践**和强大的**合作伙伴关系**。我们怀着清晰的愿景踏上这段旅程：提供卓越的解决方案，赋能我们的客户并产生有意义的影响。我们的团队由对每个项目精益求精的充满热情的个体组成。',
+                'aboutUsPara2': '自成立以来，我们一直致力于建立基于信任、透明和共同成功的长期关系。我们相信**诚信经营**，并持续学习和适应不断变化的环境，确保我们的服务始终处于行业标准的最前沿。',
+                'aboutUsPara3': '在 Thearavotey，您的目标是我们的首要任务。我们致力于理解您的独特需求，并提供**卓越的服务**，不仅满足而且超越您的期望。与我们一起继续创新，共同创造更光明的未来。',
+                'productCategoriesTitle': '我们的产品类别',
+                'medicalEquipmentTitle': '医疗设备',
+                'medicalEquipmentDesc': '探索现代医疗设备及其用途。',
+                'kitchenwareTitle': '厨具',
+                'kitchenwareDesc': '发现满足您所有需求的高品质厨房用品。',
+                'hotelSuppliesTitle': '酒店用品',
+                'hotelSuppliesDesc': '酒店设施和用品的信息和指南。',
+                'cosmeticsFragrancesTitle': '化妆品与香水',
+                'cosmeticsFragrancesDesc': '探索化妆品和美容产品的世界。',
+                'religiousOfferingsTitle': '宗教供品',
+                'religiousOfferingsDesc': '有关宗教供品和各种传统的信息。',
+                'betelNutLeavesTitle': '槟榔与叶子',
+                'betelNutLeavesDesc': '了解槟榔及其文化意义。',
+                'contactTitle': '联系 Thearavotey',
+                'contactNumberTitle': '联系电话',
+                'facebookPageTitle': '脸书页面',
+                'telegramChannelTitle': '电报频道',
+                'telegramContactTitle': '电报联系方式',
+                'operatingHoursTitle': '营业时间',
+                'operatingHoursDays': '周一 - 周日',
+                'operatingHoursTime': '上午 6:00 - 下午 5:00',
+                'ourLocationTitle': '我们的位置',
+                'locationAddress': '#50B, Street 115 Corner Street 232, Sangkat Boeng Prolit, Khan Prampi Makara, Phnom Penh, Cambodia',
+                'viewOnMap': '在谷歌地图上查看（占位符）',
+                'footerCopyright': '&copy; 2025 Thearavotey。保留所有权利。',
+                'developedBy': '由 Sorn Vichea 开发',
+                'privacyPolicy': '隐私政策',
+                'termsOfService': '服务条款'
+            }
+        };
+
+        let currentLang = localStorage.getItem('lang') || 'en'; // Default to English or last saved
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang); // Save selected language
+
+            // Update text content based on selected language
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    element.textContent = translations[currentLang][key];
+                }
+            });
+
+            // Update specific elements that might need special handling (like title)
+            document.title = translations[currentLang]['siteTitle'] + ' - My Static Website';
+
+            // Set the dropdown to the current language
+            const langSwitcher = document.getElementById('language-switcher');
+            if (langSwitcher) {
+                langSwitcher.value = currentLang;
+            }
+        }
+
+        // Initialize slider and language on window load
+        window.onload = function() {
+            slides = document.querySelectorAll('.slide');
+            if (slides.length > 0) {
+                createDots();
+                startAutoSlide();
+            }
+
+            // Set up language switcher
+            const langSwitcher = document.getElementById('language-switcher');
+            if (langSwitcher) {
+                langSwitcher.addEventListener('change', (event) => {
+                    setLanguage(event.target.value);
+                });
+            }
+
+            // Apply initial language
+            setLanguage(currentLang);
+        };
+    </script>
+</body>
+</html>
